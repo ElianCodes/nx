@@ -134,7 +134,9 @@ export async function pluginGenerator(host: Tree, schema: Schema) {
     await pluginLintCheckGenerator(host, { projectName: options.name });
   }
 
-  await formatFiles(host);
+  if (!options.skipFormat) {
+    await formatFiles(host);
+  }
 
   return () => installPackagesTask(host);
 }

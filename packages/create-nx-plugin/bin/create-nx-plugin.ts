@@ -65,6 +65,7 @@ function determinePluginName(parsedArgs: CreateNxPluginArguments) {
 
 interface CreateNxPluginArguments {
   pluginName: string;
+  cliName?: string;
   packageManager: PackageManager;
   ci: CI;
   allPrompts: boolean;
@@ -83,11 +84,16 @@ export const commandsObject: yargs.Argv<CreateNxPluginArguments> = yargs
     'Create a new Nx plugin workspace',
     (yargs) =>
       withOptions(
-        yargs.positional('pluginName', {
-          describe: chalk.dim`Plugin name`,
-          type: 'string',
-          alias: ['name'],
-        }),
+        yargs
+          .positional('pluginName', {
+            describe: chalk.dim`Plugin name`,
+            type: 'string',
+            alias: ['name'],
+          })
+          .option('cliName', {
+            describe: 'Name of the CLI package to create workspace with plugin',
+            type: 'string',
+          }),
         withNxCloud,
         withCI,
         withAllPrompts,
